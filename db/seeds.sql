@@ -16,6 +16,6 @@ VALUES ("2's Teacher", 38000, 1),
 INSERT INTO employee (first_name, last_name, role_id)
 VALUES ("Lily", "Smith", 1),
         ("Rex", "Michael", 7),
-        ("Shelby", "Duffy", 6)
-        ("Tom", "Brady", 2)
+        ("Shelby", "Duffy", 6),
+        ("Tom", "Brady", 2);
     

@@ -23,7 +23,6 @@ const options = [
       "Add a department",
       "Add a role",
       "Add an employee",
-      "Update an employee role",
     ],
   },
 ];
@@ -41,16 +40,11 @@ const newRoleQuestions = [
   {
     type: "input",
     message:
-      "Enter the department id of the role (1=Teaching, 2=Management, 3=Maintenance, 4=Corporate",
+      "Enter the department id of the role (1=Teaching, 2=Management, 3=Maintenance, 4=Corporate)",
     name: "newRoleDepartment",
   },
 ];
 const newEmployeeQuestions = [
-  {
-    type: "input",
-    message: "Enter the name of the employee",
-    name: "newEmployee",
-  },
   {
     type: "input",
     message: "Enter the employee's first name",
@@ -63,12 +57,14 @@ const newEmployeeQuestions = [
   },
   {
     type: "input",
-    message: "Enter the employee's role",
+    message:
+      "Enter the employee's role id (1 = 2's Teacher, 2 = 3's Teacher, 4 = Client Coordinator, 5 = Center Director, 6 = Weekend Cleaner, 7 = District Manager, 8 = Director of Talent",
     name: "role",
   },
   {
     type: "input",
-    message: "Enter the employee's manager",
+    message:
+      "Enter the employee's manager id (1 = Lily Smith, 2 = Rex Michael, 3 = Shelby Duffy, 4 = Tom Brady",
     name: "manager",
   },
 ];
@@ -115,16 +111,31 @@ function init() {
     } else if (data.userChoice === "Add a role") {
       inquirer.prompt(newRoleQuestions).then((response) => {
         db.query(
-          "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)",
-          (response.newRole, response.newSalary, response.newRoleDepartment),
+          "INSERT INTO role (title, salary, department_id) VALUES (? , ? , ?)",
+          [response.newRole, response.newSalary, response.newRoleDepartment],
           function (err, results) {
-            console.log("New role added!");
+            if (err) {
+              console.log(err);
+            } else console.log("New role added!");
           }
         );
       });
     } else if (data.userChoice === "Add an employee") {
       inquirer.prompt(newEmployeeQuestions).then((response) => {
-        console.log(response);
+        db.query(
+          "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (? , ? , ? , ?)",
+          [
+            response.firstName,
+            response.lastName,
+            response.role,
+            response.manager,
+          ],
+          function (err, results) {
+            if (err) {
+              console.log(err);
+            } else console.log("New employee added!");
+          }
+        );
       });
     }
   });
